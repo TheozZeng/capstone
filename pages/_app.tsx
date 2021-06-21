@@ -1,5 +1,4 @@
-import "../styles/antd.less";
-import "../styles/globals.less";
+require("../styles/globals.less");
 import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps) {
