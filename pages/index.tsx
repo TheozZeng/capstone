@@ -6,6 +6,7 @@ import { NewFileUpload } from '../components/File/NewFileUpload'
 import { Layout } from '../components/Layout'
 import { SearchBar } from '../components/SearchBar'
 
+
 export default function Home() {
   const [searchOpt, setSearchOpt] = useState<{
     collegeId?: string
@@ -26,6 +27,7 @@ export default function Home() {
       <Head>
         <title>Home</title>
       </Head>
+
       <Layout>
         <div
           style={{ background: 'url(/background.jpeg)', minHeight: '100vh' }}
@@ -58,6 +60,7 @@ export default function Home() {
           </div>
         </div>
       </Layout>
+
     </div>
-  )
+  );
 }
