@@ -4,10 +4,7 @@ import { UserContextProvider } from '../components/Shared/UserContext'
 import Head from 'next/head'
 require('antd/dist/antd.less')
 
-
-React.useLayoutEffect = React.useEffect;
 function MyApp({ Component, pageProps }: AppProps) {
-
   return (
     <>
       <Head>
@@ -22,4 +19,3 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 
 export default MyApp
-
