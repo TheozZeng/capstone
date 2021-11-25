@@ -2,6 +2,7 @@ require('../styles/globals.less')
 import { AppProps } from 'next/app'
 import { UserContextProvider } from '../components/Shared/UserContext'
 import Head from 'next/head'
+require('antd/dist/antd.less')
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

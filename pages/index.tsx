@@ -27,7 +27,9 @@ export default function Home() {
         <title>Home</title>
       </Head>
       <Layout>
-        <div style={{ background: 'url(/background.jpeg)', height: '100vh' }}>
+        <div
+          style={{ background: 'url(/background.jpeg)', minHeight: '100vh' }}
+        >
           <Row
             justify="center"
             align="bottom"
