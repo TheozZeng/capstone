@@ -3,7 +3,10 @@ import { AppProps } from 'next/app'
 import { UserContextProvider } from '../components/Shared/UserContext'
 import Head from 'next/head'
 
+
+React.useLayoutEffect = React.useEffect;
 function MyApp({ Component, pageProps }: AppProps) {
+
   return (
     <>
       <Head>
@@ -18,3 +21,4 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 
 export default MyApp
+
