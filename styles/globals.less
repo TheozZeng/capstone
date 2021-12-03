@@ -1,11 +1,7 @@
-@import './antd.less';
-
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
@@ -17,6 +13,14 @@ a {
   box-sizing: border-box;
 }
 
+.section {
+  padding: 20px 20px;
+}
+
+.content {
+  min-height: 90vh !important;
+}
+
 // width
 .w-100 {
   width: 100%;
@@ -25,42 +29,18 @@ a {
   height: 100%;
 }
 
-//text
-.text-white {
-  color: white;
-}
+//margins
 
-.text-primary {
-  color: @primary-color !important;
-}
-
-//position
-.absolute {
-  position: absolute;
-}
-.relative {
-  position: relative;
-}
-.centered {
-  justify-content: center;
-  align-items: center;
-  display: flex;
-}
-
-//margin
 .mb-10 {
   margin-bottom: 10px;
 }
-
 .mt-10 {
   margin-top: 10px;
 }
 
-.background-white {
-  background-color: @color-white;
-}
+// text
 
-//display
-.flex {
-  display: flex;
+//image, bg
+.object-cover {
+  object-fit: cover;
 }
