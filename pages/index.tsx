@@ -1,11 +1,11 @@
-import { Col, Divider, Row } from 'antd'
+import { Divider, Row } from 'antd'
 import Head from 'next/head'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { ContributedFileList } from '../components/File/ContributedFileList'
 import { NewFileUpload } from '../components/File/NewFileUpload'
 import { Layout } from '../components/Layout'
 import { SearchBar } from '../components/SearchBar'
-
+import { SearchModeSelector } from '../components/SearchBar/SearchModeSeletor'
 
 export default function Home() {
   const [searchOpt, setSearchOpt] = useState<{
@@ -18,9 +18,7 @@ export default function Home() {
     topicId: undefined
   })
 
-  useEffect(() => {
-    console.log(searchOpt)
-  }, [searchOpt])
+  const [refresh, setRefresh] = useState(false)
 
   return (
     <div>
@@ -29,38 +27,43 @@ export default function Home() {
       </Head>
 
       <Layout>
-        <div
-          style={{ background: 'url(/background.jpeg)', minHeight: '100vh' }}
-        >
+        <div style={{ minHeight: '100vh' }}>
           <Row
-            justify="center"
+            justify="space-between"
             align="bottom"
             style={{
-              padding: 20,
-              backdropFilter: 'blur(10px)'
+              padding: 20
             }}
           >
-            <Col span={20}>
+            <div>
+              <SearchModeSelector />
               <SearchBar onChange={setSearchOpt} />
-            </Col>
-            <Col span={4}>
-              <NewFileUpload options={searchOpt} />
-            </Col>
+            </div>
+            <NewFileUpload
+              options={searchOpt}
+              onSuccess={() => {
+                setRefresh(true)
+              }}
+            />
           </Row>
 
           <Divider />
 
           <div
             style={{
-              padding: 20,
-              backdropFilter: 'blur(10px)'
+              padding: 20
             }}
           >
-            <ContributedFileList options={searchOpt} />
+            <ContributedFileList
+              options={searchOpt}
+              onRefresh={() => {
+                setRefresh(false)
+              }}
+              refresh={refresh}
+            />
           </div>
         </div>
       </Layout>
-
     </div>
-  );
+  )
 }

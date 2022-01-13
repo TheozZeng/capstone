@@ -61,7 +61,12 @@ export const Layout = (props: { children: ReactNode }) => {
           <Col></Col>
           <Col>
             <div
-              style={{ textAlign: 'center', cursor: 'pointer', fontSize: 30 }}
+              style={{
+                textAlign: 'center',
+                cursor: 'pointer',
+                fontSize: 30,
+                color: 'white'
+              }}
               onClick={() => {
                 router.push('/')
               }}

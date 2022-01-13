@@ -1,6 +1,8 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, Input, message, Modal } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { exctractKeywordsMap } from '../../helpers/extract_keywords'
+import { NewKeyword } from '../../model/keyword'
 import { createFile } from '../../requests/file.request'
 import { LinodeDragger } from '../Shared/LinodeDragger'
 import { useUser } from '../Shared/UserContext'
@@ -11,8 +13,9 @@ export const NewFileUpload = (props: {
     courseId?: string
     topicId?: string
   }
+  onSuccess?: () => void
 }) => {
-  const { options } = props
+  const { options, onSuccess } = props
   const { currentUser } = useUser()
 
   const [form] = Form.useForm()
@@ -22,20 +25,32 @@ export const NewFileUpload = (props: {
 
   const onSaveFile = async () => {
     const newFile = await form.validateFields()
+
     if (newFile) {
       if (options.collegeId && options.courseId && options.topicId) {
         setUploading(true)
+        let keywords = []
+        for (let i in newFile.documents) {
+          const f = newFile.documents[i]
+          const ks = await exctractKeywordsMap(f.originFileObj, f.response.url)
+          keywords = keywords.concat(ks)
+        }
+        console.log(keywords)
         createFile({
-          name: newFile.name,
-          document: newFile.documents[0].response,
-          createdBy: currentUser._id,
-          college: options.collegeId,
-          course: options.courseId,
-          topic: options.topicId
+          file: {
+            name: newFile.name,
+            document: newFile.documents.map((d) => d.response),
+            createdBy: currentUser._id,
+            college: options.collegeId,
+            course: options.courseId,
+            topic: options.topicId
+          },
+          keywords
         }).then(() => {
           setUploading(false)
           setOpen(false)
           message.success('Yay! Contributed!')
+          onSuccess()
         })
       } else {
         message.error('Please select a college and a course and a topic')
@@ -53,6 +68,7 @@ export const NewFileUpload = (props: {
         onClick={() => {
           setOpen(true)
         }}
+        type="primary"
       >
         Contribute
       </Button>
@@ -80,7 +96,7 @@ export const NewFileUpload = (props: {
               multiple
               folder={`documents/`}
               acl="public-read"
-              onChange={(info) => {
+              onChange={async (info) => {
                 setUploading(info.event ? true : false)
               }}
             />

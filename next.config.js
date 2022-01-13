@@ -5,9 +5,7 @@ const { getThemeVariables } = require('antd/dist/theme')
 module.exports = withAntdLess({
   modifyVars: {
     ...getThemeVariables({
-      dark: true, // 开启暗黑模式
       compact: false // 开启紧凑模式,
-    }),
-    '@border-radius-base': '10px'
+    })
   }
 })

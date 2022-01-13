@@ -1,8 +1,8 @@
-import connectDB from '../../../middleware/db'
-import { FileModel, IFile } from '../../../model/file'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { useJwt } from '../../../middleware/jwt'
 import { DEFAULT_PAGESIZE } from '../../../config/global'
+import connectDB from '../../../middleware/db'
+import { useJwt } from '../../../middleware/jwt'
+import { KeywordModel } from '../../../model/keyword'
 
 export const getPageSize = (
   pageIndex: number,
@@ -13,43 +13,38 @@ export const getPageSize = (
   return total - skip > pageSize ? pageSize : total - skip
 }
 
-export interface FileListRes {
+export interface KeywordSearchRes {
   pageInfo: { pageSize: number; pageIndex: number; total: number }
-  files: IFile[]
+  documents: string[]
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
-    const { keyword, pageIndex, pageSize, college, course, topic } =
-      req.query as {
-        [key: string]: string
-      }
+    const { keyword, pageIndex, pageSize } = req.query as {
+      [key: string]: string
+    }
 
     const index = Number(pageIndex || 1)
     const size = Number(pageSize || DEFAULT_PAGESIZE)
     const skip = (index - 1) * size
 
     const queryObject = {
-      ...(keyword ? { name: new RegExp(`${keyword}`, 'i') } : {}),
-      ...(college ? { college } : {}),
-      ...(course ? { course } : {}),
-      ...(topic ? { topic } : {})
+      ...(keyword ? { keyname: new RegExp(`${keyword}`, 'i') } : {})
     }
 
-    const total = await FileModel.countDocuments(queryObject)
+    const total = await KeywordModel.countDocuments(queryObject)
 
     try {
-      const files = await FileModel.find(queryObject, null, {
+      const documents = await KeywordModel.find(queryObject, null, {
         skip,
         limit: getPageSize(index, size, total),
         sort: {
-          likes: -1
+          score: -1
         }
-      }).populate('createdBy college course topic')
-
+      })
       return res.status(200).json({
         pageInfo: { pageSize: size, pageIndex: index, total },
-        files
+        documents
       })
     } catch (err) {
       return res.status(400).json({

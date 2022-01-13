@@ -1,6 +1,6 @@
 import { IFile } from '../model/file'
 import { FileListRes } from '../pages/api/file/list'
-import { NewFile } from '../pages/api/file/new'
+import { NewFile, NewFilePayload } from '../pages/api/file/new'
 import { client } from './client'
 
 export interface FileQuery {
@@ -26,5 +26,5 @@ export const deleteFile = (id: string) =>
 export const updateFile = (id: string, payload: NewFile) =>
   client.post<IFile>(`/file/${id}`, payload).then((res) => res.data)
 
-export const createFile = (payload: NewFile) =>
+export const createFile = (payload: NewFilePayload) =>
   client.post<IFile>('/file/new', payload).then((res) => res.data)

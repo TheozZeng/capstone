@@ -2,6 +2,7 @@ import { NextApiResponse } from 'next'
 import connectDB from '../../../middleware/db'
 import { AuthNextApiRequest, useJwt } from '../../../middleware/jwt'
 import { FileModel } from '../../../model/file'
+import KeywordModel, { NewKeyword } from '../../../model/keyword'
 import { StorageUrl } from '../../../model/storage'
 
 export interface NewFile {
@@ -10,18 +11,31 @@ export interface NewFile {
   college: string
   course: string
   topic: string
-  document: StorageUrl
+  document: [StorageUrl]
+}
+
+export interface NewFilePayload {
+  file: NewFile
+  keywords: NewKeyword[]
 }
 
 const handler = async (req: AuthNextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const payload = req.body as NewFile
-    const newFile = new FileModel(payload)
+    const payload = req.body as NewFilePayload
+    const file = payload.file
 
-    const created = await newFile.save()
+    const newFile = new FileModel(file)
 
-    if (created) {
+    try {
+      const created = await newFile.save()
+
+      await KeywordModel.insertMany(payload.keywords)
+
       return res.status(200).json(created)
+    } catch (err) {
+      return res.status(400).json({
+        message: `DB Error: ${err.message}`
+      })
     }
   }
 }

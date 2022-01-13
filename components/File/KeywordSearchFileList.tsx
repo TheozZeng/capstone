@@ -1,49 +1,30 @@
 import { CloudDownloadOutlined } from '@ant-design/icons'
-import { Button, Divider, Image, Pagination, Row } from 'antd'
-import axios from 'axios'
-import { saveAs } from 'file-saver'
-import JSZip from 'jszip'
+import { Image, Pagination } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import useSWR from 'swr'
 import { DEFAULT_PAGESIZE } from '../../config/global'
-import { getFiles } from '../../requests/file.request'
+import { keywordSearch } from '../../requests/keyword.request'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
-export const ContributedFileList = (props: {
-  options: {
-    collegeId?: string
-    courseId?: string
-    topicId?: string
-  }
-  refresh?: boolean
-  onRefresh?: () => void
-}) => {
-  const { options, refresh, onRefresh } = props
+export const KeywordSearchFileList = (props: { keyword?: string }) => {
+  const { keyword } = props
 
   const [index, setIndex] = useState(1)
   const [size, setSize] = useState(DEFAULT_PAGESIZE)
   const [total, setTotal] = useState(0)
 
   const fileRes = useSWR(
-    [options.collegeId, options.courseId, options.topicId, index, size],
-    (collegeId, courseId, topicId, index, size) =>
-      getFiles({
-        college: collegeId,
-        course: courseId,
-        topic: topicId,
+    [keyword, index, size],
+    (keyword, index, size) =>
+      keywordSearch({
+        keyword,
         pageIndex: index,
         pageSize: size
       }),
     { revalidateOnFocus: false }
   )
-
-  useEffect(() => {
-    if (refresh) {
-      fileRes.revalidate().then(onRefresh)
-    }
-  }, [refresh])
 
   useEffect(() => {
     if (!fileRes.isValidating && fileRes.data) {
@@ -67,33 +48,9 @@ export const ContributedFileList = (props: {
     }
   }
 
-  const onDownload = async (urls: string[]) => {
-    const download = async (url: string) => {
-      return await axios
-        .get(url, {
-          responseType: 'blob',
-          headers: { 'Access-Control-Allow-Origin': '*' }
-        })
-        .then((res) => {
-          return { name: url, blob: res.data }
-        })
-    }
-    const contents = await Promise.all(urls.map((file) => download(file)))
-
-    if (contents) {
-      const zip = new JSZip()
-      contents.forEach((c) => {
-        zip.file(c.name.split('/').pop(), c.blob)
-      })
-      zip
-        .generateAsync({ type: 'blob' })
-        .then((zipFile) => saveAs(zipFile, 'compressed.zip'))
-    }
-  }
-
   return (
     <>
-      {fileRes.data?.files.map((file) => {
+      {fileRes.data?.documents.map((file) => {
         return (
           <div
             key={file._id}
@@ -104,23 +61,10 @@ export const ContributedFileList = (props: {
               marginBottom: 10
             }}
           >
-            <Row justify="space-between">
-              <div style={{ fontSize: 20 }}>{file.name}</div>
-              <Button
-                onClick={() => onDownload(file.document.map((d) => d.url))}
-                type="primary"
-                size="large"
-              >
-                <CloudDownloadOutlined /> Download
-              </Button>
-            </Row>
-
-            <Divider />
-            <div>
-              {file.document.map((d) => (
-                <div key={d.url}>{documentRender(d.url)}</div>
-              ))}
-            </div>
+            <a href={file.document} download className="text-lg">
+              <CloudDownloadOutlined /> Download
+            </a>
+            <div>{documentRender(file.document)}</div>
           </div>
         )
       })}

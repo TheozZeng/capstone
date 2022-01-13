@@ -11,7 +11,7 @@ export interface File extends Document {
   college: string
   course: string
   topic: string
-  document: StorageUrl
+  document: [StorageUrl]
 }
 
 export interface IFile {
@@ -22,7 +22,7 @@ export interface IFile {
   college: ICollege
   course: ICourse
   topic: ITopic
-  document: StorageUrl
+  document: [StorageUrl]
 }
 
 const fileSchema = new Schema(

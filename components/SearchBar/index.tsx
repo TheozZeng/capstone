@@ -1,5 +1,5 @@
 import PlusOutlined from '@ant-design/icons/lib/icons/PlusOutlined'
-import { Button, Divider, Input, message, Select, Space } from 'antd'
+import { Button, Divider, Input, message, Row, Select, Space } from 'antd'
 import React, { useState } from 'react'
 import useSWR from 'swr'
 import { createCollege, getColleges } from '../../requests/college.request'
@@ -28,18 +28,26 @@ export const SearchBar = (props: {
   const [topicId, setTopicId] = useState('')
   const [newTopicName, setNewTopicName] = useState('')
 
-  const collegeRes = useSWR([collegeKeyword], (keyword) =>
-    getColleges({ keyword })
+  const collegeRes = useSWR(
+    [collegeKeyword],
+    (keyword) => getColleges({ keyword }),
+    { revalidateOnFocus: false }
   )
 
-  const courseRes = useSWR([courseKeyword, collegeId], (keyword, collegeId) =>
-    getCourses({ keyword, college: collegeId })
+  const courseRes = useSWR(
+    [courseKeyword, collegeId],
+    (keyword, collegeId) =>
+      collegeId && getCourses({ keyword, college: collegeId }),
+    { revalidateOnFocus: false }
   )
 
   const topicRes = useSWR(
     [topicKeyword, collegeId, courseId],
     (keyword, collegeId, courseId) =>
-      getTopics({ keyword, college: collegeId, course: courseId })
+      collegeId &&
+      courseId &&
+      getTopics({ keyword, college: collegeId, course: courseId }),
+    { revalidateOnFocus: false }
   )
 
   const onCreateCollege = () => {
@@ -79,18 +87,19 @@ export const SearchBar = (props: {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <Row align="bottom">
       <div>
-        <div>College</div>
+        <div className="mb-10 text-xl">College</div>
         <Select
-          style={{ width: 240 }}
+          style={{ width: 200 }}
           size="large"
           value={collegeId}
           showSearch
           onSearch={(keyword) => setCollegeKeyword(keyword)}
           onChange={(e) => {
             setCollegeId(e)
-            onChange({ collegeId: e, courseId, topicId })
+            setCourseId(null)
+            setTopicId(null)
           }}
           dropdownRender={(menu) => (
             <div>
@@ -107,7 +116,7 @@ export const SearchBar = (props: {
             </div>
           )}
         >
-          {collegeRes.data?.colleges.map((item) => (
+          {collegeRes.data?.colleges?.map((item) => (
             <Option key={item._id} value={item._id}>
               {item.name}
             </Option>
@@ -116,14 +125,14 @@ export const SearchBar = (props: {
       </div>
 
       <div>
-        <div>Course</div>
+        <div className="mb-10 text-xl">Course</div>
         <Select
-          style={{ width: 240 }}
+          style={{ width: 200 }}
           size="large"
           value={courseId}
           onChange={(e) => {
             setCourseId(e)
-            onChange({ collegeId, courseId: e, topicId })
+            setTopicId(null)
           }}
           showSearch
           onSearch={(keyword) => setCourseKeyword(keyword)}
@@ -142,7 +151,7 @@ export const SearchBar = (props: {
             </div>
           )}
         >
-          {courseRes.data?.courses.map((item) => (
+          {courseRes.data?.courses?.map((item) => (
             <Option key={item._id} value={item._id}>
               {item.name}
             </Option>
@@ -151,14 +160,13 @@ export const SearchBar = (props: {
       </div>
 
       <div>
-        <div>Topic</div>
+        <div className="mb-10 text-xl">Topic</div>
         <Select
-          style={{ width: 240 }}
+          style={{ width: 200 }}
           size="large"
           value={topicId}
           onChange={(e) => {
             setTopicId(e)
-            onChange({ collegeId, courseId, topicId: e })
           }}
           showSearch
           onSearch={(keyword) => setTopicKeyword(keyword)}
@@ -177,13 +185,23 @@ export const SearchBar = (props: {
             </div>
           )}
         >
-          {topicRes.data?.topics.map((item) => (
+          {topicRes.data?.topics?.map((item) => (
             <Option key={item._id} value={item._id}>
               {item.name}
             </Option>
           ))}
         </Select>
       </div>
-    </div>
+
+      <Button
+        onClick={() => {
+          onChange({ collegeId, courseId, topicId })
+        }}
+        size="large"
+        type="primary"
+      >
+        Search
+      </Button>
+    </Row>
   )
 }
