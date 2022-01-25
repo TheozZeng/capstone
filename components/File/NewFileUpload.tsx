@@ -87,11 +87,12 @@ export const NewFileUpload = (props: {
         onOk={onSaveFile}
         onCancel={() => {
           setOpen(false)
+          form.resetFields()
         }}
         confirmLoading={uploading}
       >
         <Form form={form} layout="vertical">
-          <Form.Item name="name" label="Name" required>
+          <Form.Item name="name" label="File Name" required>
             <Input />
           </Form.Item>
           <Form.Item
@@ -100,6 +101,7 @@ export const NewFileUpload = (props: {
             required
             getValueFromEvent={(e) => e.fileList}
             valuePropName="fileList"
+            extra="Only .docx/.txt files are eligible for smart keyword extraction"
           >
             <LinodeDragger
               multiple
