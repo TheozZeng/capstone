@@ -58,7 +58,7 @@ export const Layout = (props: { children: ReactNode }) => {
     <AntdLayout>
       <Header>
         <Row justify="space-between">
-          <Col></Col>
+          <Col style={{ color: 'white' }}>v1.0.1</Col>
           <Col>
             <div
               style={{

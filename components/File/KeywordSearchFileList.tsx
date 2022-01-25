@@ -1,5 +1,5 @@
 import { CloudDownloadOutlined } from '@ant-design/icons'
-import { Image, Pagination } from 'antd'
+import { Image, Pagination, Row } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import useSWR from 'swr'
@@ -61,9 +61,12 @@ export const KeywordSearchFileList = (props: { keyword?: string }) => {
               marginBottom: 10
             }}
           >
-            <a href={file.document} download className="text-lg">
-              <CloudDownloadOutlined /> Download
-            </a>
+            <Row justify="space-between">
+              <a href={file.document} download className="text-lg">
+                <CloudDownloadOutlined /> Download
+              </a>
+              <div>Score of revelancy: {file.score.toFixed(2)}</div>
+            </Row>
             <div>{documentRender(file.document)}</div>
           </div>
         )

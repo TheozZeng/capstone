@@ -32,8 +32,17 @@ export const NewFileUpload = (props: {
         let keywords = []
         for (let i in newFile.documents) {
           const f = newFile.documents[i]
-          const ks = await exctractKeywordsMap(f.originFileObj, f.response.url)
-          keywords = keywords.concat(ks)
+          if (
+            f.type ===
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+            f.type === 'text/plain'
+          ) {
+            const ks = await exctractKeywordsMap(
+              f.originFileObj,
+              f.response.url
+            )
+            keywords = keywords.concat(ks)
+          }
         }
         console.log(keywords)
         createFile({
