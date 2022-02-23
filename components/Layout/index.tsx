@@ -58,7 +58,7 @@ export const Layout = (props: { children: ReactNode }) => {
     <AntdLayout>
       <Header>
         <Row justify="space-between">
-          <Col style={{ color: 'white' }}>v1.0.1</Col>
+          <Col style={{ color: 'white' }}>v1.0.2</Col>
           <Col>
             <div
               style={{
@@ -71,7 +71,7 @@ export const Layout = (props: { children: ReactNode }) => {
                 router.push('/')
               }}
             >
-              Capstone
+              Beyond Textbook
             </div>
           </Col>
           <Col>{currentUser._id && Settings}</Col>
