@@ -10,7 +10,7 @@ const handler = async (req: AuthNextApiRequest, res: NextApiResponse) => {
 
     const exist = await UserModel.exists({ username })
     if (exist) {
-      return res.status(400).send('Username already exists')
+      return res.status(400).json({ message: 'Username already exists' })
     }
 
     const hash = await bcrypt.hash(password, 10)
