@@ -5,7 +5,7 @@ import { ContributedFileList } from '../components/File/ContributedFileList'
 import { NewFileUpload } from '../components/File/NewFileUpload'
 import { Layout } from '../components/Layout'
 import { SearchBar } from '../components/SearchBar'
-import { SearchModeSelector } from '../components/SearchBar/SearchModeSeletor'
+import { SearchModeSelector } from '../components/SearchBar/SearchModeSelector'
 
 export default function Home() {
   const [searchOpt, setSearchOpt] = useState<{

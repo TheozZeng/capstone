@@ -18,7 +18,7 @@ export default function LoginPage() {
 
         router.push('/')
       })
-      .catch((err) => message.error(`Login Faild: ${err.message}`))
+      .catch((err) => message.error(`Login Failed: ${err.message}`))
   }
 
   return (

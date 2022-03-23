@@ -2,7 +2,7 @@ import { AutoComplete, Input } from 'antd'
 import React, { useState } from 'react'
 import { autocompleteKeyword } from '../../requests/keyword.request'
 
-export const KeywordSeach = (props: {
+export const SearchBarKeywordSearch = (props: {
   onChange: (keyword?: string) => void
 }) => {
   const { onChange } = props

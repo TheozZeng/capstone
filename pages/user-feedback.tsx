@@ -6,13 +6,13 @@ import { Layout } from '../components/Layout'
 import { SearchBarKeywordSearch } from '../components/SearchBar/SearchBarKeywordSearch'
 import { SearchModeSelector } from '../components/SearchBar/SearchModeSelector'
 
-export default function KeywordSearch() {
+export default function UserFeedback() {
   const [keyword, setKeyword] = useState<string>()
 
   return (
     <div>
       <Head>
-        <title>Keyword Search</title>
+        <title>User Feedback</title>
       </Head>
 
       <Layout>
