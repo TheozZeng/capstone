@@ -58,7 +58,21 @@ export const Layout = (props: { children: ReactNode }) => {
     <AntdLayout>
       <Header>
         <Row justify="space-between">
-          <Col style={{ color: 'white' }}>v1.0.2</Col>
+          <Col>
+            <div
+              style={{
+                textAlign: 'left',
+                cursor: 'pointer',
+                fontSize: 18,
+                color: 'white'
+              }}
+              onClick={() => {
+                router.push('/user-feedback')
+              }}
+              >
+            User Feedback
+           </div>
+          </Col>
           <Col>
             <div
               style={{
@@ -71,7 +85,7 @@ export const Layout = (props: { children: ReactNode }) => {
                 router.push('/')
               }}
             >
-              Beyond Textbook
+              Beyond Textbook (v1.0.2)
             </div>
           </Col>
           <Col>{currentUser._id && Settings}</Col>
