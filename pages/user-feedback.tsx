@@ -1,5 +1,5 @@
-import { Button, Form, Input, message, Modal } from 'antd'
 import { SendOutlined } from '@ant-design/icons'
+import { Button, Form, Input, message } from 'antd'
 import Head from 'next/head'
 import React from 'react'
 import { Layout } from '../components/Layout'

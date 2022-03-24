@@ -1,5 +1,5 @@
-import { DownOutlined } from '@ant-design/icons'
-import { Col, Dropdown, Layout as AntdLayout, Menu, Row, Space } from 'antd'
+import { CommentOutlined, DownOutlined } from '@ant-design/icons'
+import { Button, Col, Dropdown, Layout as AntdLayout, Menu, Row, Space } from 'antd'
 import { useRouter } from 'next/router'
 import React, { ReactNode, useEffect } from 'react'
 import { token } from '../../requests/auth.request'
@@ -59,18 +59,17 @@ export const Layout = (props: { children: ReactNode }) => {
       <Header>
         <Row justify="space-between">
           <Col>
-            <div
-              style={{
-                textAlign: 'left',
-                cursor: 'pointer',
-                fontSize: 18,
-                color: 'white'
-              }}
+           <div>
+            <Button 
+              type="primary" 
+              htmlType="submit"
+              icon={<CommentOutlined />}
               onClick={() => {
                 router.push('/user-feedback')
               }}
-              >
-            User Feedback
+            >
+              Feedback
+            </Button>
            </div>
           </Col>
           <Col>
@@ -85,7 +84,8 @@ export const Layout = (props: { children: ReactNode }) => {
                 router.push('/')
               }}
             >
-              Beyond Textbook (v1.0.2)
+              <span>Beyond Textbook </span>
+              <span style={{fontSize: 12}}>v1.0.4</span>
             </div>
           </Col>
           <Col>{currentUser._id && Settings}</Col>
