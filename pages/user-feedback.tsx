@@ -24,6 +24,7 @@ export default function UserFeedback() {
 
   const onFinish = (values) => {
     // TODO: write data to database
+    console.log(values)
     message.success('Feedback Submitted! Thank you!')
   };
 
@@ -50,7 +51,7 @@ export default function UserFeedback() {
                 },
               ]}
             >
-              <Input />
+              <Input allowClear maxLength={100} />
             </Form.Item>
             <Form.Item
               name={['user', 'email']}
@@ -62,7 +63,7 @@ export default function UserFeedback() {
                 },
               ]}
             >
-              <Input />
+              <Input allowClear maxLength={100} />
             </Form.Item>
             <Form.Item 
               name={['user', 'title']}
@@ -79,7 +80,11 @@ export default function UserFeedback() {
               <Input.TextArea allowClear autoSize showCount maxLength={3000} />
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 5 }}>
-              <Button icon={<SendOutlined />} type="primary" htmlType="submit">
+              <Button
+                icon={<SendOutlined />}
+                type="primary"
+                htmlType="submit"
+              >
                 Submit
               </Button>
             </Form.Item>
