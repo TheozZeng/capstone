@@ -281,7 +281,7 @@ export const NewFileUpload = (props: {
             </Select>
           </Form.Item>
           <Form.Item name="name" label="File Name" rules={[{ required: true }]}>
-            <Input />
+            <Input allowClear />
           </Form.Item>
           <Form.Item
             name="documents"
