@@ -1,5 +1,5 @@
 import { CommentOutlined, DownOutlined } from '@ant-design/icons'
-import { Button, Col, Dropdown, Layout as AntdLayout, Menu, Row, Space } from 'antd'
+import { Button, Col, Dropdown, Image, Layout as AntdLayout, Menu, Row } from 'antd'
 import { useRouter } from 'next/router'
 import React, { ReactNode, useEffect } from 'react'
 import { token } from '../../requests/auth.request'
@@ -78,13 +78,14 @@ export const Layout = (props: { children: ReactNode }) => {
                 textAlign: 'center',
                 cursor: 'pointer',
                 fontSize: 30,
-                color: 'white'
+                color: 'white',
               }}
               onClick={() => {
                 router.push('/')
               }}
             >
-              <span>Beyond Textbook </span>
+              <Image preview={false} height={40} src="/logo-small.png" style={{ position: 'relative', top: 5, right: 5 }} />
+              <span> Beyond Textbook </span>
               <span style={{fontSize: 12}}>v1.0.4</span>
             </div>
           </Col>
