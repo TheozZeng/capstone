@@ -12,7 +12,8 @@ export default function KeywordSearch() {
   return (
     <div>
       <Head>
-        <title>Keyword Search</title>
+        <link rel="icon" href="/logo-title.ico" type="image/x-icon" />
+        <title>BT - Keyword Search</title>
       </Head>
 
       <Layout>

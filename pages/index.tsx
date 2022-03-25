@@ -1,4 +1,4 @@
-import { Divider, Row } from 'antd'
+import { Divider, Row, Image } from 'antd'
 import Head from 'next/head'
 import React, { useState } from 'react'
 import { ContributedFileList } from '../components/File/ContributedFileList'
@@ -23,7 +23,8 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Home</title>
+        <link rel="icon" href="/logo-title.ico" type="image/x-icon" />
+        <title>Beyond Textbook</title>
       </Head>
 
       <Layout>

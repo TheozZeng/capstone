@@ -31,7 +31,8 @@ export default function UserFeedback() {
   return (
     <div>
       <Head>
-        <title>User Feedback</title>
+        <link rel="icon" href="/logo-title.ico" type="image/x-icon" />
+        <title>BT - User Feedback</title>
       </Head>
 
       <Layout>

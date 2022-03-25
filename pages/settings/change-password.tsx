@@ -26,7 +26,8 @@ export default function ChangePwdPage() {
   return (
     <div>
       <Head>
-        <title>Change Password</title>
+        <link rel="icon" href="/logo-title.ico" type="image/x-icon" />
+        <title>BT - Change Password</title>
       </Head>
       <Layout>
         <div className="section">

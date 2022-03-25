@@ -24,7 +24,8 @@ export default function LoginPage() {
   return (
     <div>
       <Head>
-        <title>Login</title>
+        <link rel="icon" href="/logo-title.ico" type="image/x-icon" />
+        <title>BT - Login</title>
       </Head>
       <Layout>
         <div className="section">

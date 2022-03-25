@@ -30,7 +30,8 @@ export default function RegisterPage() {
   return (
     <div>
       <Head>
-        <title>Register</title>
+        <link rel="icon" href="/logo-title.ico" type="image/x-icon" />
+        <title>BT - Register</title>
       </Head>
       <Layout>
         <div className="section">
