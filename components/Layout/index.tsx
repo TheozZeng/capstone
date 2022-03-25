@@ -84,7 +84,7 @@ export const Layout = (props: { children: ReactNode }) => {
                 router.push('/')
               }}
             >
-              <Image preview={false} height={40} src="/logo-small.png" style={{ position: 'relative', top: 5, right: 5 }} />
+              <Image preview={false} height={40} src="/logo-small.png" style={{ position: 'relative', top: 7, right: 5 }} />
               <span> Beyond Textbook </span>
               <span style={{fontSize: 12}}>v1.0.4</span>
             </div>
