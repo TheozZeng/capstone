@@ -3,6 +3,8 @@ import { Button, Form, Input, message } from 'antd'
 import Head from 'next/head'
 import React from 'react'
 import { Layout } from '../components/Layout'
+import { createUserFeedback } from '../requests/userFeedback.request'
+import { useUser } from '../components/Shared/UserContext'
 
 const layout = {
   labelCol: {
@@ -21,11 +23,20 @@ const validateMessages = {
 };
 
 export default function UserFeedback() {
+  const { currentUser } = useUser()
+  const [form] = Form.useForm()
 
   const onFinish = (values) => {
-    // TODO: write data to database
-    console.log(values)
-    message.success('Feedback Submitted! Thank you!')
+    createUserFeedback({ 
+      username: currentUser.username, 
+      name: values.name, 
+      email: values.email, 
+      title: values.title, 
+      description: values.description
+    }).then(() => {
+      message.success('Feedback Submitted! Thank you!')
+      form.resetFields()
+    })
   };
 
   return (
@@ -42,9 +53,9 @@ export default function UserFeedback() {
           </h1>
         </div>
         <div>
-          <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
+          <Form {...layout} form={form} name="userFeedbackForm" onFinish={onFinish} validateMessages={validateMessages}>
             <Form.Item
-              name={['user', 'name']}
+              name='name'
               label="Name"
               rules={[
                 {
@@ -55,7 +66,7 @@ export default function UserFeedback() {
               <Input allowClear maxLength={100} />
             </Form.Item>
             <Form.Item
-              name={['user', 'email']}
+              name='email'
               label="Email"
               rules={[
                 {
@@ -67,7 +78,7 @@ export default function UserFeedback() {
               <Input allowClear maxLength={100} />
             </Form.Item>
             <Form.Item 
-              name={['user', 'title']}
+              name='title'
               label="Title"
               rules={[
                 {
@@ -77,7 +88,15 @@ export default function UserFeedback() {
             >
               <Input allowClear maxLength={150} />
             </Form.Item>
-            <Form.Item name={['user', 'description']} label="Description">
+            <Form.Item 
+              name='description' 
+              label="Description"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
               <Input.TextArea allowClear autoSize showCount maxLength={3000} />
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 5 }}>
