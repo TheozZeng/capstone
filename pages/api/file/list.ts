@@ -20,10 +20,11 @@ export interface FileListRes {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
-    const { keyword, pageIndex, pageSize, college, course, topic } =
-      req.query as {
-        [key: string]: string
-      }
+    const { keyword, pageIndex, pageSize, college, course } = req.query as {
+      [key: string]: string
+    }
+
+    const topics: string[] = req.query.topics as string[]
 
     const index = Number(pageIndex || 1)
     const size = Number(pageSize || DEFAULT_PAGESIZE)
@@ -33,7 +34,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       ...(keyword ? { name: new RegExp(`${keyword}`, 'i') } : {}),
       ...(college ? { college } : {}),
       ...(course ? { course } : {}),
-      ...(topic ? { topic } : {})
+      ...(topics ? { topic: { $in: topics } } : {})
     }
 
     const total = await FileModel.countDocuments(queryObject)

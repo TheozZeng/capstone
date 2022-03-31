@@ -32,7 +32,7 @@ export const ContributedFileList = (props: {
       getFiles({
         college: collegeId,
         course: courseId,
-        topic: topicId,
+        topics: [topicId],
         pageIndex: index,
         pageSize: size
       }),

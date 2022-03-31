@@ -7,7 +7,7 @@ export interface FileQuery {
   keyword?: string
   college?: string
   course?: string
-  topic?: string
+  topics?: string[]
   pageIndex?: number
   pageSize?: number
 }

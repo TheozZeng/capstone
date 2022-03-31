@@ -13,6 +13,7 @@ export const SearchModeSelector = () => {
     >
       <TabPane tab="Keyword Search" key="/keyword-search"></TabPane>
       <TabPane tab="Precise Search" key="/"></TabPane>
+      <TabPane tab="Textbook Generation" key="/textbook-gen" />
     </Tabs>
   )
 }
