@@ -1,5 +1,5 @@
 import { IFile } from '../model/file'
-import { FileListRes } from '../pages/api/file/list'
+import { FileListRes } from '../pages/api/file/topics-list'
 import { NewFile, NewFilePayload } from '../pages/api/file/new'
 import { client } from './client'
 
@@ -7,6 +7,12 @@ export interface FileQuery {
   keyword?: string
   college?: string
   course?: string
+  topic?: string
+  pageIndex?: number
+  pageSize?: number
+}
+
+export interface FileTopicsQuery {
   topics?: string[]
   pageIndex?: number
   pageSize?: number
@@ -15,6 +21,11 @@ export interface FileQuery {
 export const getFiles = (query?: FileQuery) =>
   client
     .get<FileListRes>('/file/list', { params: query })
+    .then((res) => res.data)
+
+export const getFilesByTopics = (query?: FileTopicsQuery) =>
+  client
+    .get<FileListRes>('/file/topics-list', { params: query })
     .then((res) => res.data)
 
 export const getFile = (id: string) =>

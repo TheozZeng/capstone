@@ -4,19 +4,17 @@ import FileSaver from 'file-saver'
 import JSZip from 'jszip'
 import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
-import { KeywordSearchFileList } from '../components/File/KeywordSearchFileList'
 import { Layout } from '../components/Layout'
-import { SearchBarKeywordSearch } from '../components/SearchBar/SearchBarKeywordSearch'
 import { SearchModeSelector } from '../components/SearchBar/SearchModeSelector'
 import { StorageUrl } from '../model/storage'
 import { ITopic } from '../model/topic'
-import { getFiles } from '../requests/file.request'
+import { getFilesByTopics } from '../requests/file.request'
 import { getTopics } from '../requests/topic.request'
 
 const { Option } = Select
 
 export default function TextbookGen() {
-  const [keyword, setKeyword] = useState<string>()
+  const [loading, setLoading] = useState<boolean>(false)
   const [topics, setTopics] = useState<ITopic[]>()
   const [topicIds, setTopicIds] = useState<string[]>()
 
@@ -31,7 +29,8 @@ export default function TextbookGen() {
   }
 
   const onDownload = async () => {
-    const files = await getFiles({ topics: topicIds }).then(
+    setLoading(true)
+    const files = await getFilesByTopics({ topics: topicIds }).then(
       (fileRes) => fileRes.files
     )
 
@@ -66,7 +65,10 @@ export default function TextbookGen() {
       })
     }
 
-    exportZip(await downloadMany(documents.map((d) => d.url)))
+    const blobs = await downloadMany(documents.map((d) => d.url))
+
+    exportZip(blobs)
+    setLoading(false)
   }
 
   return (
@@ -105,7 +107,7 @@ export default function TextbookGen() {
               </Select>
             </Col>
             <Col>
-              <Button onClick={onDownload} type="primary">
+              <Button onClick={onDownload} type="primary" loading={loading}>
                 Download
               </Button>
             </Col>
