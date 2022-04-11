@@ -19,12 +19,12 @@ export interface FileListRes {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'GET') {
-    const { pageIndex, pageSize } = req.query as {
+  if (req.method === 'POST') {
+    const { pageIndex, pageSize } = req.body as {
       [key: string]: string
     }
 
-    const topics: string[] = req.query.topics as string[]
+    const topics: string[] = req.body.topics as string[]
 
     const index = Number(pageIndex || 1)
     const size = Number(pageSize || DEFAULT_PAGESIZE)

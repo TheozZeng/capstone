@@ -24,9 +24,7 @@ export const getFiles = (query?: FileQuery) =>
     .then((res) => res.data)
 
 export const getFilesByTopics = (query?: FileTopicsQuery) =>
-  client
-    .get<FileListRes>('/file/topics-list', { params: query })
-    .then((res) => res.data)
+  client.post<FileListRes>('/file/topics-list', query).then((res) => res.data)
 
 export const getFile = (id: string) =>
   client.get<IFile>(`/file/${id}`).then((res) => res.data)
